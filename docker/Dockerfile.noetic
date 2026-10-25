@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     dbus-x11 \
+    ffmpeg \
     git \
     less \
     mesa-utils \
@@ -31,6 +32,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     x11-apps \
     python3-catkin-tools \
     python3-pip \
+    python3-opencv \
+    python3-numpy \
+    python3-matplotlib \
     python3-rosdep \
     python3-vcstool \
     ros-noetic-gazebo-plugins \
@@ -51,7 +55,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-noetic-ros-control \
     ros-noetic-ros-controllers \
     ros-noetic-rviz \
-    ros-noetic-teleop-twist-keyboard \    
+    ros-noetic-cv-bridge \
+    ros-noetic-message-filters \
+    ros-noetic-image-view \
+    ros-noetic-teleop-twist-keyboard \
     ros-noetic-xacro \
     && rm -rf /var/lib/apt/lists/*
 

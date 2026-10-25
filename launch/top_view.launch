@@ -1,0 +1,25 @@
+<launch>
+  <arg name="gui" default="true"/>
+  <arg name="record" default="true"/>
+  <arg name="drive" default="true"/>
+  <arg name="output" default="$(find lar_gazebo)/results"/>
+  <env name="HUSKY_URDF_EXTRAS" value="$(find lar_gazebo)/husky_urdf_extras/top_view.urdf"/>
+  <env name="HUSKY_REALSENSE_ENABLED" value="0"/>
+  <env name="HUSKY_LMS1XX_ENABLED" value="0"/>
+  <include file="$(find lar_gazebo)/launch/lar_husky.launch">
+    <arg name="world_name" value="$(find lar_gazebo)/worlds/lar_top_view.world"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="paused" value="false"/>
+  </include>
+  <param name="robot_description" command="env HUSKY_URDF_EXTRAS=$(find lar_gazebo)/husky_urdf_extras/top_view.urdf HUSKY_REALSENSE_ENABLED=0 HUSKY_LMS1XX_ENABLED=0 $(find xacro)/xacro $(find husky_description)/urdf/husky.urdf.xacro"/>
+  <node pkg="lar_gazebo" type="top_view_node.py" name="top_view" output="screen">
+    <rosparam param="world_camera">[0,-1,0,4.65, -1,0,0,3, 0,0,-1,9, 0,0,0,1]</rosparam>
+  </node>
+  <node pkg="lar_gazebo" type="visual_patrol.py" name="visual_patrol" if="$(arg drive)" output="screen"/>
+  <node pkg="lar_gazebo" type="evaluate_top_view.py" name="evaluate_top_view" output="screen">
+    <param name="csv" value="$(arg output)/poses.csv"/>
+  </node>
+  <node pkg="lar_gazebo" type="record_top_view.py" name="record_top_view" if="$(arg record)" output="screen">
+    <param name="path" value="$(arg output)/demo.mp4"/>
+  </node>
+</launch>

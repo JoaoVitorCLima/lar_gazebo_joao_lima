@@ -1,0 +1,14 @@
+{
+  "completed": true,
+  "waypoints": 4,
+  "controller_pose_source": "/top_view/pose",
+  "ground_truth_consumer": "evaluate_top_view",
+  "observed_done_at_sim_time_s": 364.15,
+  "first_paired_time_s": 0.09,
+  "last_paired_time_s": 166.61,
+  "video_frames": 2499,
+  "video_fps": 15.0,
+  "video_duration_s": 166.6,
+  "video_codec": "H.264",
+  "video_sha256": "99ad6857841a070a57352a9a6f77e09378717d03a1f2169b42851ef7043c1a33"
+}

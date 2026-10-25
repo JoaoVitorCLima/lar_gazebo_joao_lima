@@ -1,0 +1,1 @@
+<sdf version="1.6"><model name="robot_apriltag"><static>true</static><link name="tag"><visual name="tag"><geometry><mesh><uri>model://robot_apriltag/meshes/tag.dae</uri></mesh></geometry></visual></link></model></sdf>

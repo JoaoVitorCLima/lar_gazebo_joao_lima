@@ -1,0 +1,5 @@
+<robot>
+<link name="top_tag"><inertial><mass value="0.01"/><inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/></inertial><visual><geometry><mesh filename="package://lar_gazebo/models/robot_apriltag/meshes/tag.dae"/></geometry></visual></link>
+<joint name="top_tag_joint" type="fixed"><parent link="base_link"/><child link="top_tag"/><origin xyz="0 0 0.55"/></joint>
+<gazebo><plugin name="evaluation_ground_truth" filename="libgazebo_ros_p3d.so"><bodyName>base_link</bodyName><topicName>/evaluation/ground_truth</topicName><frameName>world</frameName><updateRate>100</updateRate><gaussianNoise>0</gaussianNoise><xyzOffset>0 0 0</xyzOffset><rpyOffset>0 0 0</rpyOffset></plugin></gazebo>
+</robot>
