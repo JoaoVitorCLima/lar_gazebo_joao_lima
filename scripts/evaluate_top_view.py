@@ -21,6 +21,7 @@ def yaw(p):
 class Evaluation:
     def __init__(self):
         self.finished = False
+        self.closed = False
         self.lock = threading.RLock()
         self.truth = deque(maxlen=2000)
         self.pending = deque(maxlen=100)
@@ -32,16 +33,18 @@ class Evaluation:
         rospy.Subscriber('/evaluation/ground_truth', Odometry, self.ground_truth, queue_size=100)
         rospy.Subscriber('/top_view/pose', PoseStamped, self.vision, queue_size=100)
         rospy.Subscriber('/top_view/done', Bool, self.done)
-        rospy.on_shutdown(self.file.close)
+        rospy.on_shutdown(self.close)
 
     def ground_truth(self, msg):
         with self.lock:
+            if self.finished or self.closed:
+                return
             self.truth.append((msg.header.stamp.to_sec(), msg.pose.pose))
             self.flush()
 
     def vision(self, msg):
         with self.lock:
-            if self.finished:
+            if self.finished or self.closed:
                 return
             self.pending.append(msg)
             self.flush()
@@ -49,10 +52,24 @@ class Evaluation:
     def done(self, msg):
         if msg.data:
             with self.lock:
-                self.flush()
+                if self.finished or self.closed:
+                    return
                 self.finished = True
+                self.flush()
                 self.pending.clear()
                 self.file.flush()
+
+    def close(self):
+        """Finalize the CSV once, while serializing with ROS callbacks."""
+        with self.lock:
+            if self.closed:
+                return
+            self.finished = True
+            self.flush()
+            self.pending.clear()
+            self.file.flush()
+            self.file.close()
+            self.closed = True
 
     def flush(self):
         if len(self.truth) < 2:
