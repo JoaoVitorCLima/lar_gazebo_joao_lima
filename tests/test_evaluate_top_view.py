@@ -1,4 +1,3 @@
-"""The evaluator must not use its CSV after shutdown has closed it."""
 import importlib.util
 from collections import deque
 from pathlib import Path
