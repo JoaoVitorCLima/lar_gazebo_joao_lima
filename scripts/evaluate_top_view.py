@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Only this node consumes simulator ground truth. Interpolate at image timestamp."""
 import bisect
 import csv
 import os
